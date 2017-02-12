@@ -68,15 +68,34 @@ public class Rec{
 		if(!DISPLAY)
 			System.out.println(result);
 	}
-		public int ack(int a,int b){
+	public int ack(int a,int b){
 		int result=0;
-		if(a==0){
+		if(a==0){ 
 			int tmp=b+1;
+			operandos.pollLast();
+			operandos.pollLast();
+			operandos.add(tmp);
+			if(DISPLAY)
+				System.out.println("S:"+operandos);
 			return tmp;
 		}
-		if(b==0)
+		if(b==0){
+			operandos.pollLast();
+			operandos.pollLast();
+			operandos.add(a-1);
+			operandos.add(1);
+			System.out.println("C2:"+operandos);
 			result += ack(a-1,1);
-		if(a!=0 && b!=0)
+		}
+		if(a!=0 && b!=0){
+		//	buffer.append(buffer.append("A("+(a-1)+","+"A("+a+","+(b-1)+")"));
+			operandos.pollLast();
+			operandos.pollLast();
+			operandos.add(a-1);
+			operandos.add(a);
+			operandos.add(b-1);
+			if(DISPLAY)
+				System.out.println("C:"+operandos);
 			result += ack(a-1,ack(a,b-1));}
 		return result;
 	}
