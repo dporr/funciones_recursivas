@@ -1,31 +1,20 @@
 import java.util.LinkedList;
 public class Rec{
-	public StringBuilder buffer;
 	public static void main(String[] args){
-		Factorial fact = new Factorial(7);
+		Factorial fact = new Factorial(7,1);
 	}
-	//public int ack(int a,int b){
-		//int result=0;
-		//Implementando algunas propiedades para ahorrar procesamiento
-		//if(a==1 && b>=0) return b+2;
-		//if(a{==2 && b>=0) return (2*b)+3;
-		//if(a==3 && b>=0) return Math.pow(2,n+3) -3;
-		//buffer.append("A("+a+","+b+")");
-		//if(a==0) return ++b;
-		//if(b==0) result += ack(a-1,1);
-		//if(a!=0 && b!=0){
-			//buffer.append(buffer.append("A("+(a-1)+","+"A("+a+","+(b-1)+")"));
-			//result += ack(a-1,ack(a,b-1));}
-		//return result;
-	//}
 	//public String searchPath(int num){}
 	}
 
-	class Factorial{
+	class Factorial implements FuncionImprimible{
 		private LinkedList<Integer> factores;
-		public Factorial(int nesimo){
+
+		public Factorial(int nesimo,int display){
 			factores = new LinkedList<Integer>();
-			factorial(nesimo);
+			this.DISPLAY= display==1? true:false;
+			result = factorial(nesimo);
+			if(!DISPLAY)
+				System.out.println(nesimo+"! = "+result);
 		}
 
 		/**
@@ -38,16 +27,28 @@ public class Rec{
 			int result=0;
 			if(num == 0) {
 				factores.add(0);
-				System.out.println(factores.toString().replace("]","").replace("[","").replace(","," *")+"!");
+				if(DISPLAY){
+					display=factores.toString().replace("]","").replace("[","").replace(","," *")+"!";
+					System.out.println(display);
+					System.out.println(display.replace("0!","1"));
+				}
 				return 1; //caso base
 			}
 			factores.add(num);
-			System.out.println(factores.toString().replace("]","").replace("[","").replace(","," *")+"!");
-			result = num * factorial(num-1); //caso inductivo
+			if(DISPLAY)
+				System.out.println(factores.toString().replace("]","").replace("[","").replace(","," *")+"!");
+			result = num * factorial(num-1); //Caso inductivo
 			factores.pollLast();
 			factores.pollLast();
 			factores.add(result);
-			System.out.println(factores.toString().replace("]","").replace("[","").replace(","," *"));
+			if(DISPLAY)
+				System.out.println(factores.toString().replace("]","").replace("[","").replace(","," *"));
 			return result;
+		}
+
+		interface FuncionImprimible{
+			private String display; //String del proceso de calulo
+			private boolean DISPLAY; //Desplegar el proceso de calculo?
+			private int result;
 		}
 }
