@@ -2,7 +2,7 @@ import java.util.LinkedList;
 public class Rec{
 	public static void main(String[] args){
 		//Factorial fact = new Factorial(7,1);
-		Ackerman ak32 = new Ackerman(2,1,0);
+		Ackerman ak32 = new Ackerman(2,1,1);
 
 	}
 	//public String searchPath(int num){}
@@ -68,6 +68,12 @@ public class Rec{
 		if(!DISPLAY)
 			System.out.println(result);
 	}
+			/**
+		*Calcula el resultado de la funcion de Ackerman A(a,b)
+		*@param int a A(a,)
+		*@param int a A(,b)
+		*@author Diego Porras,16001742
+		*/
 	public int ack(int a,int b){
 		int result=0;
 		//Implementando algunas propiedades para ahorrar procesamiento
@@ -79,31 +85,40 @@ public class Rec{
 		}
 		if(a==0){ 
 			int tmp=b+1;
-			operandos.pollLast();
-			operandos.pollLast();
-			operandos.add(tmp);
 			if(DISPLAY)
-				System.out.println("S:"+operandos);
+				displayCase1(tmp);
 			return tmp;
 		}
 		if(b==0){
-			operandos.pollLast();
-			operandos.pollLast();
-			operandos.add(a-1);
-			operandos.add(1);
-			System.out.println("C2:"+operandos);
+			if(DISPLAY)
+				displayCase2(a);
 			result += ack(a-1,1);
 		}
 		if(a!=0 && b!=0){
-		//	buffer.append(buffer.append("A("+(a-1)+","+"A("+a+","+(b-1)+")"));
+			if(DISPLAY)
+				displayCase3(a,b);
+			result += ack(a-1,ack(a,b-1));}
+		return result;
+	}
+	private void displayCase1(int number){
+			operandos.pollLast();
+			operandos.pollLast();
+			operandos.add(number);	
+			System.out.println("S:"+operandos);
+	}
+	private void displayCase2(int number){
+			operandos.pollLast();
+			operandos.pollLast();
+			operandos.add(number-1);
+			operandos.add(1);
+			System.out.println("C2:"+operandos);
+	}
+	private void displayCase3(int a, int b){
 			operandos.pollLast();
 			operandos.pollLast();
 			operandos.add(a-1);
 			operandos.add(a);
 			operandos.add(b-1);
-			if(DISPLAY)
-				System.out.println("C:"+operandos);
-			result += ack(a-1,ack(a,b-1));}
-		return result;
+			System.out.println("C:"+operandos);
 	}
-	}
+}
