@@ -6,8 +6,11 @@ public class Rec{
 	//public String searchPath(int num){}
 	}
 
-	class Factorial implements FuncionImprimible{
+	class Factorial{
 		private LinkedList<Integer> factores;
+		private String display; //String del proceso de calulo
+		private boolean DISPLAY=true; //Desplegar el proceso de calculo?
+		private int result;
 
 		public Factorial(int nesimo,int display){
 			factores = new LinkedList<Integer>();
@@ -44,11 +47,5 @@ public class Rec{
 			if(DISPLAY)
 				System.out.println(factores.toString().replace("]","").replace("[","").replace(","," *"));
 			return result;
-		}
-
-		interface FuncionImprimible{
-			private String display; //String del proceso de calulo
-			private boolean DISPLAY; //Desplegar el proceso de calculo?
-			private int result;
 		}
 }
