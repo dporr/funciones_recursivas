@@ -70,6 +70,13 @@ public class Rec{
 	}
 	public int ack(int a,int b){
 		int result=0;
+		//Implementando algunas propiedades para ahorrar procesamiento
+		//Faster whitout display!
+		if(!DISPLAY){
+			if(a==1 && b>=0) return b+2;
+			if(a==2 && b>=0) return (2*b)+3;
+			if(a==3 && b>=0) return ((int) Math.pow(2,b+3))-3;
+		}
 		if(a==0){ 
 			int tmp=b+1;
 			operandos.pollLast();
