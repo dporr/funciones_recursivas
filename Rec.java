@@ -85,18 +85,15 @@ public class Rec{
 		}
 		if(a==0){ 
 			int tmp=b+1;
-			if(DISPLAY)
-				displayCase1(tmp);
+			displayCase1(tmp);
 			return tmp;
 		}
 		if(b==0){
-			if(DISPLAY)
-				displayCase2(a);
+			displayCase2(a);
 			result += ack(a-1,1);
 		}
 		if(a!=0 && b!=0){
-			if(DISPLAY)
-				displayCase3(a,b);
+			displayCase3(a,b);
 			result += ack(a-1,ack(a,b-1));}
 		return result;
 	}
