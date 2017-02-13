@@ -1,9 +1,40 @@
 import java.util.LinkedList;
 public class Rec{
-	public static void main(String[] args){
-		//Factorial fact = new Factorial(7,1);
-		Ackerman ak32 = new Ackerman(3,2,1);
-
+	public static void main(String[] args) throws Exception{
+		int display=0;
+		int value1=0;
+		int value2=0;
+		if(args.length<3) throw new Exception("Faltan parametros.Revisar documentacion");
+		if(args.length>4) throw new Exception("Sobran parametros.Revisar documentacion");
+		if(!(args[0].equals("-r")||args[0].equals("-d"))) throw new Exception("Modos validos: -r|-d");
+		if(args[0].equals("-d")) display=1;	
+		if(!(args[1].equals("-fact")||args[1].equals("-ack")||args[1].equals("-search")))
+			throw new Exception("Operaciones validas: -fib:factorial,-ack:Ackerma,-search:Busqueda recursiva");
+		switch(args[1]){
+			case "-fact":
+				try{
+					value1 = Integer.parseInt(args[2]);
+				}catch(Exception e){
+					throw new Exception("El tercer parametro debe ser numerico para la funcion elegida");
+				}
+				if(value1<0) throw new Exception("Imposible calcular factorial de un negativo.");
+				Factorial factorial = new Factorial(value1,display);
+				break;
+			case "-ack":
+				try{
+					value1 = Integer.parseInt(args[2]);
+					value2 = Integer.parseInt(args[3]);
+				}catch(Exception e){
+					throw new Exception("El tercer y cuarto parametro deben ser numericos para la funcion elegida");
+				}
+				if(value1<0 || value2<0)
+					throw new Exception("Ambos parametrosde f:Ackerman(x,y) deben ser positivos o cero");
+				Ackerman ackerman = new Ackerman(value1,value2,display);
+				break;
+			case "-search":
+				System.out.println("NO implementado");	
+		}
+		System.out.println("SKIP!");
 	}
 	//public String searchPath(int num){}
 	}
@@ -53,9 +84,9 @@ public class Rec{
 	}
 
 	class Ackerman{
-	private LinkedList<String> endings;
-	private LinkedList<String> tockens;
-	private StringBuffer display; //String del proceso de calulo
+	private LinkedList<String> endings; //tockens en la forma A\(d,d), A\(d 
+	private LinkedList<String> tockens; //parentesis de cierre en el despliegue
+	private StringBuffer display; //String que representa el proceso de calulo
 	private boolean DISPLAY=true; //Desplegar el proceso de calculo?
 	private int result;
 
@@ -68,7 +99,7 @@ public class Rec{
 		if(!DISPLAY)
 			System.out.println(result);
 	}
-			/**
+		/**
 		*Calcula el resultado de la funcion de Ackerman A(a,b)
 		*@param int a A(a,)
 		*@param int a A(,b)
@@ -97,6 +128,12 @@ public class Rec{
 			result += ack(a-1,ack(a,b-1));}
 		return result;
 	}
+	/**
+	*Forma un string de la forma b+1 para la llamada A(0,b) 
+	*para  desplegar de forma correcta el caso base 1 de Ackerman
+	*@param int de una llamada de tipo A(0,number)
+	*@author Diego Porras,16001742
+	*/
 	private void stringCase1(int number){
 			tockens.pollLast();
 			tockens.pollLast();
@@ -104,6 +141,12 @@ public class Rec{
 			endings.remove();
 			print();
 	}
+	/**
+	*Forma un string de la forma A(a-1,1) 
+	*para  desplegar de forma correcta el caso base 2 de Ackerman
+	*@param int de una llamada de tipo A(number,0)
+	*@author Diego Porras,16001742
+	*/
 	private void stringCase2(int number){
 			tockens.removeLast();
 			tockens.removeLast();
@@ -111,12 +154,26 @@ public class Rec{
 			tockens.add(1+"");
 			print();
 	}
+	/**
+	*Forma un string de la forma A(a,b)
+	*inicia la acumulacion de tockens para el formateo correcto delasalida
+	*@param int a A(a,)
+	*@param int a A(,b)
+	*@author Diego Porras,16001742
+	*/
 	public void stringInitialCase(int a,int b){
 		tockens.add("A("+a);
 		tockens.add(b+"");
 		endings.add(")");
 		print();
 	}
+	/**
+	*Forma un string de la forma A(a-1,A(a,b-1)) 
+	*para  desplegar de forma correcta el caso base 3 de Ackerman
+	*@param int a un operando de f:Ackerman en la forma A(a,b)
+	*@param int b un operando de f:Ackerman en la forma A(a,b)
+	*@author Diego Porras,16001742
+	*/
 	private void stringCase3(int a, int b){
 			tockens.pollLast();
 			tockens.pollLast();
@@ -126,6 +183,12 @@ public class Rec{
 			endings.add(")");
 			print();
 	}
+
+	/**
+	*Unifica las pilas tockens y endings eliminando caracteres innecesarios
+	*para  desplegar de forma correcta el calculo de f:Ackermann
+	*@author Diego Porras,16001742
+	*/
 	private void print(){
 		display = new StringBuffer(tockens.toString().replace("[","").replace("]",""));
 		display.append(endings.toString().replace("[","").replace("]","").replace(",","").replace(" ",""));
