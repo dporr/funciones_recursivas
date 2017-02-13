@@ -2,7 +2,7 @@ import java.util.LinkedList;
 public class Rec{
 	public static void main(String[] args){
 		//Factorial fact = new Factorial(7,1);
-		Ackerman ak32 = new Ackerman(2,1,1);
+		Ackerman ak32 = new Ackerman(3,2,1);
 
 	}
 	//public String searchPath(int num){}
@@ -53,17 +53,17 @@ public class Rec{
 	}
 
 	class Ackerman{
-	private LinkedList<Integer> operandos;
-	private String display; //String del proceso de calulo
+	private LinkedList<String> endings;
+	private LinkedList<String> tockens;
+	private StringBuffer display; //String del proceso de calulo
 	private boolean DISPLAY=true; //Desplegar el proceso de calculo?
 	private int result;
 
-	public Ackerman(int a,int b, int display){
-		this.DISPLAY= display==1? true:false;
-		operandos = new LinkedList<Integer>();
-		operandos.add(a);
-		operandos.add(b);
-		System.out.println("B:"+operandos + " = ") ;
+	public Ackerman(int a,int b, int displayFlag){
+		this.DISPLAY= displayFlag==1? true:false;
+		tockens = new LinkedList<String>();
+		endings = new LinkedList<String>();
+		stringInitialCase(a,b);
 		result = ack(a,b);
 		if(!DISPLAY)
 			System.out.println(result);
@@ -85,37 +85,50 @@ public class Rec{
 		}
 		if(a==0){ 
 			int tmp=b+1;
-			displayCase1(tmp);
+			stringCase1(tmp);
 			return tmp;
 		}
 		if(b==0){
-			displayCase2(a);
+			stringCase2(a);
 			result += ack(a-1,1);
 		}
 		if(a!=0 && b!=0){
-			displayCase3(a,b);
+			stringCase3(a,b);
 			result += ack(a-1,ack(a,b-1));}
 		return result;
 	}
-	private void displayCase1(int number){
-			operandos.pollLast();
-			operandos.pollLast();
-			operandos.add(number);	
-			System.out.println("S:"+operandos);
+	private void stringCase1(int number){
+			tockens.pollLast();
+			tockens.pollLast();
+			tockens.add(""+number);
+			endings.remove();
+			print();
 	}
-	private void displayCase2(int number){
-			operandos.pollLast();
-			operandos.pollLast();
-			operandos.add(number-1);
-			operandos.add(1);
-			System.out.println("C2:"+operandos);
+	private void stringCase2(int number){
+			tockens.removeLast();
+			tockens.removeLast();
+			tockens.add("A("+(number-1));
+			tockens.add(1+"");
+			print();
 	}
-	private void displayCase3(int a, int b){
-			operandos.pollLast();
-			operandos.pollLast();
-			operandos.add(a-1);
-			operandos.add(a);
-			operandos.add(b-1);
-			System.out.println("C:"+operandos);
+	public void stringInitialCase(int a,int b){
+		tockens.add("A("+a);
+		tockens.add(b+"");
+		endings.add(")");
+		print();
+	}
+	private void stringCase3(int a, int b){
+			tockens.pollLast();
+			tockens.pollLast();
+			tockens.add("A("+(a-1));
+			tockens.add("A("+a);
+			tockens.add(""+(b-1));
+			endings.add(")");
+			print();
+	}
+	private void print(){
+		display = new StringBuffer(tockens.toString().replace("[","").replace("]",""));
+		display.append(endings.toString().replace("[","").replace("]","").replace(",","").replace(" ",""));
+		System.out.println(display);
 	}
 }
